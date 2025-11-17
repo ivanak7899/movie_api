@@ -3,10 +3,10 @@ class SessionsController < ApplicationController
   
   def create
     user = User.find_by(email: session_params[:email])
-  
+
     if user&.authenticate(session_params[:password])
       session = user.sessions.create!
-  
+
       render json: SessionSerializer.render(session, root: :session), status: :created
     else
       render json: { errors: { credentials: ['are invalid'] } }, status: :unauthorized
@@ -16,9 +16,9 @@ class SessionsController < ApplicationController
   def destroy
     token   = request.headers['Authorization']&.to_s
     session = Session.active.find_by(token: token)
-  
+
     session&.revoke!
-  
+
     head :no_content
   end
 
@@ -28,4 +28,3 @@ class SessionsController < ApplicationController
     params.require(:session).permit(:email, :password)
   end
 end
-  

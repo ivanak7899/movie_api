@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     if user.save
       render json: UserSerializer.render(user, root: :user), status: :created
     else
-      render json: user.errors, status: :bad_request
+      render json: user.errors, status: :unprocessable_entity
     end
   end
 
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       render json: UserSerializer.render(@user, root: :user), status: :ok
     else
-      render json: @user.errors, status: :bad_request
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 

@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     if user.save
       render json: UserSerializer.render(user, root: :user), status: :created
     else
-      render json: user.errors.full_messages, status: :unprocessable_entity
+      render json: { errors: user.errors }, status: :unprocessable_entity
     end
   end
 

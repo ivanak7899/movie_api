@@ -3,7 +3,7 @@ class PeopleController < ApplicationController
 
   # GET /people
   def index
-    @people = Person.all
+    people = Person.all
 
     render json: PersonSerializer.render(people, root: :people), status: :ok
   end

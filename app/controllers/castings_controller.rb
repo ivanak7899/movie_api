@@ -29,7 +29,7 @@ class CastingsController < ApplicationController
     if @casting.update(casting_params)
       render json: CastingSerializer.render(@casting, root: :casting), status: :ok
     else
-      render json: { errors: @casting.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @casting.errors }, status: :unprocessable_entity
     end
   end
 

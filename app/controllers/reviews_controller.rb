@@ -47,6 +47,6 @@ class ReviewsController < ApplicationController
 
   # user_id is set from current_user, so it should not be permitted from params
   def review_params
-    params.require(:review).permit(:rating, :comment, :user_id, :movie_id)
+    params.require(:review).permit(:rating, :comment, :movie_id)
   end
 end

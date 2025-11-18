@@ -29,7 +29,7 @@ class MoviesController < ApplicationController
     if @movie.update(movie_params)
       render json: MovieSerializer.render(@movie, root: :movie), status: :ok
     else
-      render json: @movie.errors, status: :unprocessable_entity
+      render json: { errors: @movie.errors }, status: :unprocessable_entity
     end
   end
 

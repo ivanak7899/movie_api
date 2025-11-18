@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:create]
-  
+  skip_before_action :authenticate_user!, only: [ :create ]
+
   def create
     user = User.find_by(email: session_params[:email])
 
@@ -9,12 +9,12 @@ class SessionsController < ApplicationController
 
       render json: SessionSerializer.render(session, root: :session), status: :created
     else
-      render json: { errors: { credentials: ['are invalid'] } }, status: :unauthorized
+      render json: { errors: { credentials: [ "are invalid" ] } }, status: :unauthorized
     end
   end
-  
+
   def destroy
-    token   = request.headers['Authorization']&.to_s
+    token   = request.headers["Authorization"]&.to_s
     session = Session.active.find_by(token: token)
 
     session&.revoke!

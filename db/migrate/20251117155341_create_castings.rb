@@ -8,6 +8,6 @@ class CreateCastings < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :castings, [:movie_id, :person_id, :role_name], unique: true
+    add_index :castings, [ :movie_id, :person_id, :role_name ], unique: true
   end
 end

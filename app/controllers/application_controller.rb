@@ -6,13 +6,13 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_user!
-    token = request.headers['Authorization']
-    
+    token = request.headers["Authorization"]
+
     @current_session = Session.active.find_by(token: token)
     @current_user    = @current_session&.user
 
     unless @current_user
-      render json: { errors: { token: ['is invalid'] } }, status: :unauthorized
+      render json: { errors: { token: [ "is invalid" ] } }, status: :unauthorized
     end
   end
 end

@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   resources :movies
   resources :people
   resources :users
-  
-  resource :session, only: [:create, :destroy]
+
+  resource :session, only: [ :create, :destroy ]
 end

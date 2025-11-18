@@ -1,51 +1,52 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: %i[ show update destroy ]
+  before_action :set_review, only: [ :show, :update, :destroy ]
 
   # GET /reviews
   def index
-    @reviews = Review.all
+    reviews = Review.all
 
-    render json: @reviews
+    render json: ReviewSerializer.render(reviews, root: :reviews), status: :ok
   end
 
-  # GET /reviews/1
+  # GET /reviews/:id
   def show
-    render json: @review
+    render json: ReviewSerializer.render(@review, root: :review), status: :ok
   end
 
   # POST /reviews
   def create
-    @review = Review.new(review_params)
+    review = current_user.reviews.new(review_params)
 
-    if @review.save
-      render json: @review, status: :created, location: @review
+    if review.save
+      render json: ReviewSerializer.render(review, root: :review), status: :created
     else
-      render json: @review.errors, status: :unprocessable_content
+      render json: { errors: review.errors }, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /reviews/1
+  # PATCH/PUT /reviews/:id
   def update
     if @review.update(review_params)
-      render json: @review
+      render json: ReviewSerializer.render(@review, root: :review), status: :ok
     else
-      render json: @review.errors, status: :unprocessable_content
+      render json: { errors: @review.errors }, status: :unprocessable_entity
     end
   end
 
-  # DELETE /reviews/1
+  # DELETE /reviews/:id
   def destroy
     @review.destroy!
+    head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_review
-      @review = Review.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def review_params
-      params.require(:review).permit(:rating, :comment, :user_id, :movie_id)
-    end
+  def set_review
+    @review = Review.find(params[:id])
+  end
+
+  # user_id is set from current_user, so it should not be permitted from params
+  def review_params
+    params.require(:review).permit(:rating, :comment, :user_id, :movie_id)
+  end
 end

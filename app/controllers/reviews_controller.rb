@@ -16,6 +16,7 @@ class ReviewsController < ApplicationController
   # POST /reviews
   def create
     review = current_user.reviews.new(review_params)
+    authorize review
 
     if review.save
       render json: ReviewSerializer.render(review, root: :review), status: :created
@@ -26,6 +27,8 @@ class ReviewsController < ApplicationController
 
   # PATCH/PUT /reviews/:id
   def update
+    authorize @review
+
     if @review.update(review_params)
       render json: ReviewSerializer.render(@review, root: :review), status: :ok
     else
@@ -35,6 +38,8 @@ class ReviewsController < ApplicationController
 
   # DELETE /reviews/:id
   def destroy
+    authorize @review
+
     @review.destroy!
     head :no_content
   end

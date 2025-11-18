@@ -16,6 +16,7 @@ class CastingsController < ApplicationController
   # POST /castings
   def create
     casting = Casting.new(casting_params)
+    authorize casting
 
     if casting.save
       render json: CastingSerializer.render(casting, root: :casting), status: :created
@@ -26,6 +27,8 @@ class CastingsController < ApplicationController
 
   # PATCH/PUT /castings/:id
   def update
+    authorize @casting
+
     if @casting.update(casting_params)
       render json: CastingSerializer.render(@casting, root: :casting), status: :ok
     else
@@ -35,6 +38,8 @@ class CastingsController < ApplicationController
 
   # DELETE /castings/:id
   def destroy
+    authorize @casting
+
     @casting.destroy!
     head :no_content
   end

@@ -10,4 +10,16 @@ class User < ApplicationRecord
   validates :email,    presence: true, uniqueness: { case_sensitive: false }, format: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
   validates :password, length: { minimum: 6 }, if: -> { password.present? }
   validates :role,     presence: true, inclusion: { in: ROLES }
+
+  def admin?
+    role == "admin"
+  end
+
+  def moderator?
+    role == "moderator"
+  end
+
+  def user?
+    role == "user"
+  end
 end

@@ -1,6 +1,12 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :create ]
 
+  def index
+    sessions = policy_scope(Session)
+
+    render json: SessionSerializer.render(sessions, root: :sessions), status: :ok
+  end
+
   def create
     user = User.find_by(email: session_params[:email])
 
@@ -15,9 +21,10 @@ class SessionsController < ApplicationController
 
   def destroy
     token   = request.headers["Authorization"]&.to_s
-    session = Session.active.find_by(token: token)
+    session = Session.find_by_token!(token)
 
-    session&.revoke!
+    authorize session
+    session.revoke!
 
     head :no_content
   end

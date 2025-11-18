@@ -1,51 +1,51 @@
 class MoviesController < ApplicationController
-  before_action :set_movie, only: %i[ show update destroy ]
+  before_action :set_movie, only: [ :show, :update, :destroy ]
 
   # GET /movies
   def index
-    @movies = Movie.all
+    movies = Movie.all
 
-    render json: @movies
+    render json: MovieSerializer.render(movies, root: :movies), status: :ok
   end
 
-  # GET /movies/1
+  # GET /movies/:id
   def show
-    render json: @movie
+    render json: MovieSerializer.render(@movie, root: :movie), status: :ok
   end
 
   # POST /movies
   def create
-    @movie = Movie.new(movie_params)
+    movie = Movie.new(movie_params)
 
-    if @movie.save
-      render json: @movie, status: :created, location: @movie
+    if movie.save
+      render json: MovieSerializer.render(movie, root: :movie), status: :created
     else
-      render json: @movie.errors, status: :unprocessable_content
+      render json: { errors: movie.errors }, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /movies/1
+  # PATCH/PUT /movies/:id
   def update
     if @movie.update(movie_params)
-      render json: @movie
+      render json: MovieSerializer.render(@movie, root: :movie), status: :ok
     else
-      render json: @movie.errors, status: :unprocessable_content
+      render json: { errors: @movie.errors }, status: :unprocessable_entity
     end
   end
 
-  # DELETE /movies/1
+  # DELETE /movies/:id
   def destroy
     @movie.destroy!
+    head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_movie
-      @movie = Movie.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def movie_params
-      params.require(:movie).permit(:title, :description, :release_year, :director_id)
-    end
+  def set_movie
+    @movie = Movie.find(params[:id])
+  end
+
+  def movie_params
+    params.require(:movie).permit(:title, :description, :release_year, :director_id)
+  end
 end

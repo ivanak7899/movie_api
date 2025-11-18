@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:create]
-  before_action :set_user, only: [:show, :update, :destroy]
+  skip_before_action :authenticate_user!, only: [ :create ]
+  before_action :set_user, only: [ :show, :update, :destroy ]
 
   # GET /users
   def index
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     if user.save
       render json: UserSerializer.render(user, root: :user), status: :created
     else
-      render json: user.errors, status: :unprocessable_entity
+      render json: { errors: user.errors }, status: :unprocessable_entity
     end
   end
 

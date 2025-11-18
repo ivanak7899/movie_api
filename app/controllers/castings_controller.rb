@@ -1,51 +1,51 @@
 class CastingsController < ApplicationController
-  before_action :set_casting, only: %i[ show update destroy ]
+  before_action :set_casting, only: [ :show, :update, :destroy ]
 
   # GET /castings
   def index
-    @castings = Casting.all
+    castings = Casting.all
 
-    render json: @castings
+    render json: CastingSerializer.render(castings, root: :castings), status: :ok
   end
 
-  # GET /castings/1
+  # GET /castings/:id
   def show
-    render json: @casting
+    render json: CastingSerializer.render(@casting, root: :casting), status: :ok
   end
 
   # POST /castings
   def create
-    @casting = Casting.new(casting_params)
+    casting = Casting.new(casting_params)
 
-    if @casting.save
-      render json: @casting, status: :created, location: @casting
+    if casting.save
+      render json: CastingSerializer.render(casting, root: :casting), status: :created
     else
-      render json: @casting.errors, status: :unprocessable_content
+      render json: { errors: casting.errors }, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /castings/1
+  # PATCH/PUT /castings/:id
   def update
     if @casting.update(casting_params)
-      render json: @casting
+      render json: CastingSerializer.render(@casting, root: :casting), status: :ok
     else
-      render json: @casting.errors, status: :unprocessable_content
+      render json: { errors: @casting.errors }, status: :unprocessable_entity
     end
   end
 
-  # DELETE /castings/1
+  # DELETE /castings/:id
   def destroy
     @casting.destroy!
+    head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_casting
-      @casting = Casting.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def casting_params
-      params.require(:casting).permit(:movie_id, :person_id, :role_name)
-    end
+  def set_casting
+    @casting = Casting.find(params[:id])
+  end
+
+  def casting_params
+    params.require(:casting).permit(:movie_id, :person_id, :role_name)
+  end
 end

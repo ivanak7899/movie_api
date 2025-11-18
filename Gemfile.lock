@@ -283,6 +283,9 @@ DEPENDENCIES
   debug
   puma (>= 5.0)
   rails (~> 7.2.3)
+  rubocop
+  rubocop-performance
+  rubocop-rails
   rubocop-rails-omakase
   sqlite3 (>= 1.4)
   tzinfo-data

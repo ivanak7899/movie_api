@@ -8,4 +8,8 @@ class Session < ApplicationRecord
   def revoke!
     update!(revoked_at: Time.current)
   end
+
+  def self.find_by_token!(token)
+    find_by!(token: token, revoked_at: nil)
+  end
 end

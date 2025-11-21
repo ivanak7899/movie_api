@@ -16,6 +16,7 @@ class PeopleController < ApplicationController
   # POST /people
   def create
     person = Person.new(person_params)
+    authorize person
 
     if person.save
       render json: PersonSerializer.render(person, root: :person), status: :created
@@ -26,6 +27,8 @@ class PeopleController < ApplicationController
 
   # PATCH/PUT /people/:id
   def update
+    authorize @person
+
     if @person.update(person_params)
       render json: PersonSerializer.render(@person, root: :person), status: :ok
     else
@@ -35,6 +38,8 @@ class PeopleController < ApplicationController
 
   # DELETE /people/:id
   def destroy
+    authorize @person
+
     @person.destroy!
     head :no_content
   end

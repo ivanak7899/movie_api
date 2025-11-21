@@ -16,6 +16,7 @@ class MoviesController < ApplicationController
   # POST /movies
   def create
     movie = Movie.new(movie_params)
+    authorize movie
 
     if movie.save
       render json: MovieSerializer.render(movie, root: :movie), status: :created
@@ -26,6 +27,8 @@ class MoviesController < ApplicationController
 
   # PATCH/PUT /movies/:id
   def update
+    authorize @movie
+
     if @movie.update(movie_params)
       render json: MovieSerializer.render(@movie, root: :movie), status: :ok
     else
@@ -35,6 +38,8 @@ class MoviesController < ApplicationController
 
   # DELETE /movies/:id
   def destroy
+    authorize @movie
+
     @movie.destroy!
     head :no_content
   end

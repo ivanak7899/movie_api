@@ -26,6 +26,8 @@ class ReviewsController < ApplicationController
 
   # PATCH/PUT /reviews/:id
   def update
+    authorize @review
+
     if @review.update(review_params)
       render json: ReviewSerializer.render(@review, root: :review), status: :ok
     else
@@ -35,6 +37,8 @@ class ReviewsController < ApplicationController
 
   # DELETE /reviews/:id
   def destroy
+    authorize @review
+
     @review.destroy!
     head :no_content
   end

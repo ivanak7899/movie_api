@@ -15,9 +15,10 @@ class SessionsController < ApplicationController
 
   def destroy
     token   = request.headers["Authorization"]&.to_s
-    session = Session.active.find_by(token: token)
+    session = Session.find_by_token!(token)
 
-    session&.revoke!
+    authorize session
+    session.revoke!
 
     head :no_content
   end

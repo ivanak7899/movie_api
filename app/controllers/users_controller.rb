@@ -4,13 +4,17 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    users = User.all
+    authorize User
+
+    users = policy_scope(User)
 
     render json: UserSerializer.render(users, root: :users), status: :ok
   end
 
   # GET /users/:id
   def show
+    authorize @user
+
     render json: UserSerializer.render(@user, root: :user), status: :ok
   end
 
@@ -27,6 +31,8 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/:id
   def update
+    authorize @user
+
     if @user.update(user_params)
       render json: UserSerializer.render(@user, root: :user), status: :ok
     else
@@ -36,6 +42,8 @@ class UsersController < ApplicationController
 
   # DELETE /users/:id
   def destroy
+    authorize @user
+
     @user.destroy!
     head :no_content
   end

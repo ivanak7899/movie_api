@@ -1,12 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :create ]
 
-  def index
-    sessions = policy_scope(Session)
-
-    render json: SessionSerializer.render(sessions, root: :sessions), status: :ok
-  end
-
   def create
     user = User.find_by(email: session_params[:email])
 

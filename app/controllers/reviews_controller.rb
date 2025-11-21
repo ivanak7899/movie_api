@@ -16,7 +16,6 @@ class ReviewsController < ApplicationController
   # POST /reviews
   def create
     review = current_user.reviews.new(review_params)
-    authorize review
 
     if review.save
       render json: ReviewSerializer.render(review, root: :review), status: :created

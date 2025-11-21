@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    authorize current_user
+    authorize User
 
     users = policy_scope(User)
 

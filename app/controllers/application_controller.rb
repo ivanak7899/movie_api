@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
   end
 
   def user_not_authorized
-    render json: { error: "Not authorized" }, status: :forbidden
+    render json: { errors: "Not authorized" }, status: :forbidden
   end
 
   def render_not_found

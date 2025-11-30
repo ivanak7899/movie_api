@@ -3,7 +3,7 @@ class ReviewsController < ApplicationController
 
   # GET /reviews
   def index
-    reviews = Review.all
+    reviews = ReviewsQuery.new.call(params)
 
     render json: ReviewSerializer.render(reviews, root: :reviews), status: :ok
   end

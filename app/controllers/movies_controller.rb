@@ -3,7 +3,7 @@ class MoviesController < ApplicationController
 
   # GET /movies
   def index
-    movies = Movie.all
+    movies = MoviesQuery.new.call(params)
 
     render json: MovieSerializer.render(movies, root: :movies), status: :ok
   end

@@ -7,5 +7,7 @@ class CreateSessions < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
+
+    add_index :sessions, :token, unique: true
   end
 end

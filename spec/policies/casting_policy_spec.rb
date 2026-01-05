@@ -1,4 +1,3 @@
-# spec/policies/casting_policy_spec.rb
 require 'rails_helper'
 
 RSpec.describe CastingPolicy do

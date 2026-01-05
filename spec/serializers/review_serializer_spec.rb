@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ReviewSerializer do
   let(:user) { create(:user) }
   let(:movie) { create(:movie) }
-  let(:review) { create(:review, user: user, movie: movie, rating: 4, comment: "Great!", created_at: Time.current) }
+  let(:review) { create(:review, user: user, movie: movie, rating: 4, comment: "Great!") }
 
   it "serializes the review with associations" do
     result = described_class.render_as_hash(review)

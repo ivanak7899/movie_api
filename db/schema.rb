@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_17_155432) do
     t.datetime "revoked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_sessions_on_token", unique: true
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 

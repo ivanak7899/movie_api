@@ -20,7 +20,7 @@ This project was developed as part of a diploma thesis.
 ### Clone the repository
 
 ```
-git clone https://github.com/your-username/movies_api.git
+git clone https://github.com/ivanak7899/movies_api.git
 cd movies_api
 ```
 
